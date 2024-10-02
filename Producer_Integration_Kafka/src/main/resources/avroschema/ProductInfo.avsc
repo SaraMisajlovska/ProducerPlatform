@@ -1,0 +1,23 @@
+{
+  "type": "record",
+  "name": "ProductInfo",
+  "namespace": "ecommerce",
+  "fields": [
+    {
+      "name": "productId",
+      "type": "string"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "category",
+      "type": "string"
+    },
+    {
+      "name": "price",
+      "type": "float"
+    }
+  ]
+}

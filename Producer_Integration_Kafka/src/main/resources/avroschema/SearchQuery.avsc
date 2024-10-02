@@ -1,0 +1,19 @@
+{
+  "type": "record",
+  "name": "SearchQuery",
+  "namespace": "ecommerce",
+  "fields": [
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "query",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": "long"
+    }
+  ]
+}

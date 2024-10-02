@@ -1,0 +1,19 @@
+{
+  "type": "record",
+  "name": "ProductView",
+  "namespace": "ecommerce",
+  "fields": [
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "product",
+      "type": "ecommerce.ProductInfo"
+    },
+    {
+      "name": "timestamp",
+      "type": "long"
+    }
+  ]
+}

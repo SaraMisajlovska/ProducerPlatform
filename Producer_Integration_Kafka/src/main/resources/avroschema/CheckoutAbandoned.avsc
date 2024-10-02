@@ -1,0 +1,35 @@
+{
+  "type": "record",
+  "name": "CheckoutAbandoned",
+  "namespace": "ecommerce",
+  "fields": [
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "cart",
+      "type": {
+        "type": "record",
+        "name": "CartInfo",
+        "fields": [
+          {
+            "name": "cartId",
+            "type": "string"
+          },
+          {
+            "name": "products",
+            "type": {
+              "type": "array",
+              "items": "ecommerce.ProductInfo"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "timestamp",
+      "type": "long"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "record",
+  "name": "AddToCart",
+  "namespace": "ecommerce",
+  "fields": [
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "product",
+      "type": "ecommerce.ProductInfo"
+    },
+    {
+      "name": "quantity",
+      "type": "int"
+    },
+    {
+      "name": "timestamp",
+      "type": "long"
+    }
+  ]
+}
