@@ -20,7 +20,7 @@ public class ProductViewProducerService {
 
   private final KafkaTemplate<String, ProductView> kafkaTemplate;
 
-  @Value("kafka.topic.producer-one.user-actions")
+  @Value("${kafka.topic.producer-one.user-actions}")
   String currentProducersOwnTopic;
 
   public void produceMessage(ProductView productView) {
