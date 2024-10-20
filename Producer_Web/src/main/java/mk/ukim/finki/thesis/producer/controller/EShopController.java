@@ -1,10 +1,13 @@
 package mk.ukim.finki.thesis.producer.controller;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.thesis.producer.config.TrackActivity;
 import mk.ukim.finki.thesis.producer.dtos.CartItemDTO;
 import mk.ukim.finki.thesis.producer.dtos.OrderCancellationDTO;
 import mk.ukim.finki.thesis.producer.dtos.ProductDTO;
 import mk.ukim.finki.thesis.producer.dtos.SearchResultDTO;
+import mk.ukim.finki.thesis.producer.mapper.DTOMapper;
+import mk.ukim.finki.thesis.spi.model.Product;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +16,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class EShopController {
+
+  private final DTOMapper dtoMapper;
 
   //Apply after returning advice
   @TrackActivity
   @GetMapping("/product/{productId}")
-  public ResponseEntity<ProductDTO> viewProduct(@PathVariable String productId) {
+  public ResponseEntity<Product> viewProduct(@PathVariable String productId) {
 
     ProductDTO product = new ProductDTO();
     product.setId(productId);
@@ -26,8 +32,10 @@ public class EShopController {
     product.setDescription("This is an example product.");
     product.setPrice(99.99);
     product.setStock(10);
+    product.setCategory("Example Category");
 
-    return ResponseEntity.ok(product);
+    Product body = dtoMapper.mapToProduct(product);
+    return ResponseEntity.ok(body);
   }
 
   @PostMapping("/cart")

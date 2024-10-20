@@ -2,7 +2,7 @@ version: "3"
 
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.4.1
+    image: confluentinc/cp-zookeeper:7.4.1.arm64
     hostname: zookeeper
     container_name: zookeeper-thesis
     ports:
@@ -12,7 +12,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   broker:
-    image: confluentinc/cp-server:7.4.1
+    image: confluentinc/cp-server:7.4.1.arm64
     hostname: broker
     container_name: broker-thesis
     depends_on:
@@ -22,7 +22,8 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,SSL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
       KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
@@ -32,24 +33,9 @@ services:
       CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
       CONFLUENT_METRICS_ENABLE: "true"
       CONFLUENT_SUPPORT_CUSTOMER_ID: "anonymous"
-      KAFKA_SSL_KEYSTORE_FILENAME: kafka.server.keystore.jks
-      KAFKA_SSL_KEYSTORE_CREDENTIALS: kafka_keystore_credentials
-      KAFKA_SSL_KEY_CREDENTIALS: kafka_sslkey_credentials
-      KAFKA_SSL_TRUSTSTORE_FILENAME: kafka.server.truststore.jks
-      KAFKA_SSL_TRUSTSTORE_CREDENTIALS: kafka_truststore_credentials
-      KAFKA_SSL_CLIENT_AUTH: 'required'
-    volumes:
-      - ./src/main/resources/mockCerts:/etc/kafka/secrets
-
-  kafka-tools:
-    image: confluentinc/cp-kafka:7.4.1
-    hostname: kafka-tools
-    container_name: kafka-tools-thesis
-    command: [ "tail", "-f", "/dev/null" ]
-    network_mode: "host"
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:7.4.1
+    image: confluentinc/cp-schema-registry:7.4.1.arm64
     hostname: schema-registry
     container_name: schema-registry-thesis
     depends_on:
@@ -59,31 +45,26 @@ services:
       - "8081:8081"
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zookeeper:2181"
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "PLAINTEXT://broker:29092"
+      SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL: "PLAINTEXT"
 
-  schema-registry-ui:
-    image: landoop/schema-registry-ui
-    hostname: schema-registry-ui
+  control-center:
+    image: confluentinc/cp-enterprise-control-center:7.7.1.arm64
+    hostname: control-center
+    container_name: control-center
     depends_on:
+      - zookeeper
       - broker
       - schema-registry
     ports:
-      - "8002:8000"
+      - "9021:9021"
     environment:
-      SCHEMAREGISTRY_URL: "http://schema-registry:8081"
-      PROXY: "true"
-      SCHEMA_REGISTRY_ACCESS_CONTROL_ALLOW_ORIGIN: '*'
-      SCHEMA_REGISTRY_ACCESS_CONTROL_ALLOW_METHODS: 'GET,POST,PUT,OPTIONS'
-
-  kafdrop:
-    image: obsidiandynamics/kafdrop
-    hostname: kafdrop-ui
-    depends_on:
-      - broker
-      - schema-registry
-    ports:
-      - "9000:9000"
-    environment:
-      KAFKA_BROKERCONNECT: broker:29092
-      CMD_ARGS: "--message.format=AVRO --schemaregistry.connect=http://schema-registry:8081"
-      JVM_OPTS: "-Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify"
+      CONTROL_CENTER_BOOTSTRAP_SERVERS: 'broker:29092'
+      CONTROL_CENTER_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      CONTROL_CENTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+      CONTROL_CENTER_REPLICATION_FACTOR: 1
+      CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
+      CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
+      CONFLUENT_METRICS_TOPIC_REPLICATION: 1
+      PORT: 9021

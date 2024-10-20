@@ -1,12 +1,9 @@
-package mk.ukim.finki.thesis.kafka.service.impl;
+package mk.ukim.finki.thesis.kafka.service;
 
 
 import ecommerce.ProductView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mk.ukim.finki.thesis.kafka.factory.KafkaTemplateFactory;
-import mk.ukim.finki.thesis.kafka.service.KafkaProducerService;
-import org.apache.avro.specific.SpecificRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaProducerException;
@@ -14,42 +11,24 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import static java.util.stream.Collectors.toList;
-
-/**
- * Implementation of {@link KafkaProducerService}.
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class KafkaProducerServiceImpl<T extends SpecificRecord> implements KafkaProducerService<T> {
+public class ProductViewProducerService {
 
-  private final
-  Map<Class<T>, KafkaTemplateFactory<T>> kafkaTemplateFactories;
+  private final KafkaTemplate<String, ProductView> kafkaTemplate;
 
   @Value("kafka.topic.producer-one.user-actions")
   String currentProducersOwnTopic;
 
-
-  @Override
-  public void produceMessage(T specificRecord) {
+  public void produceMessage(ProductView productView) {
 
     log.info("Kafka Producer: Producing message to kafka topic");
 
-    KafkaTemplateFactory<T> factory = kafkaTemplateFactories.get(specificRecord.getClass());
-
-    if (factory == null) {
-      throw new IllegalArgumentException("No KafkaTemplateFactory found for record type: "
-              + specificRecord.getClass().getName());
-    }
-
-    KafkaTemplate<String, T> kafkaTemplate = factory.getKafkaTemplate();
-
-    CompletableFuture<SendResult<String, T>> future = kafkaTemplate.send(currentProducersOwnTopic, specificRecord);
+    CompletableFuture<? extends SendResult<String, ProductView>> future =
+            kafkaTemplate.send(currentProducersOwnTopic, productView);
 
     future.whenComplete(this::handleCompletion);
   }

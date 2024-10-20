@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: producer
+  datasource:
+    url: jdbc:postgresql://localhost:5432/thesis-eshop
+    username: postgres
+    password: admin
+  kafka:
+    bootstrap-servers: "127.0.0.1:9092"
+    producer:
+      keySerializer: "org.apache.kafka.common.serialization.StringSerializer"
+      valueSerializer: "io.confluent.kafka.serializers.KafkaAvroSerializer"
+      properties:
+        schema:
+          registry:
+            url: "http://127.0.0.1:8081"
+kafka:
+  topic:
+    producer-one:
+      user-actions: "mk.ukim.finki.thesis.producer-one.user-actions"
+

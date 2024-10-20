@@ -21,6 +21,7 @@
     </properties>
 
     <!-- TODO smisajlo 15.7.24: explain this part too -->
+    <!-- TODO smisajlo 14.10.24: this is needed because the confluent dependencies do not exist in the maven repository -->
     <repositories>
         <repository>
             <id>confluent</id>
@@ -38,11 +39,20 @@
             <artifactId>spring-kafka-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer -->
         <dependency>
             <groupId>io.confluent</groupId>
             <artifactId>kafka-avro-serializer</artifactId>
             <version>${confluent.kafka.avro.serializer.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro</artifactId>
+            <version>1.11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-schema-registry-client</artifactId>
+            <version>7.4.0</version>
         </dependency>
     </dependencies>
 
