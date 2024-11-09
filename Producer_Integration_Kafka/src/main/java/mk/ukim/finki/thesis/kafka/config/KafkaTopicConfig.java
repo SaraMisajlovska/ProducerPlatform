@@ -6,11 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-// TODO smisajlo 15.7.24: Explain the annotations of this class
 @Slf4j
-//@EnableKafka
 @Configuration
-//@RequiredArgsConstructor
 public class KafkaTopicConfig {
 
   @Value("${kafka.topic.producer-one.user-actions}")

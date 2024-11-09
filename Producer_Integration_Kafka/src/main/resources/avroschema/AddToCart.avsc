@@ -5,7 +5,7 @@
   "fields": [
     {
       "name": "userId",
-      "type": "string"
+      "type": "long"
     },
     {
       "name": "product",

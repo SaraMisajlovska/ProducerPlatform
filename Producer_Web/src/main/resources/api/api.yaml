@@ -14,7 +14,7 @@ paths:
           required: true
           description: The ID of the product to retrieve.
           schema:
-            type: string
+            type: number
       responses:
         '200':
           description: Product retrieved successfully
@@ -37,7 +37,7 @@ paths:
               type: object
               properties:
                 productId:
-                  type: string
+                  type: number
                 quantity:
                   type: integer
       responses:
@@ -62,7 +62,7 @@ paths:
               type: object
               properties:
                 orderId:
-                  type: string
+                  type: number
       responses:
         '200':
           description: Order process cancelled successfully
@@ -83,6 +83,12 @@ paths:
           description: The search string to use for finding products.
           schema:
             type: string
+        - name: userId
+          in: query
+          required: true
+          description: The user id of the user performing the search.
+          schema:
+            type: number
       responses:
         '200':
           description: Search results returned successfully
@@ -98,7 +104,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: number
         name:
           type: string
         description:
@@ -112,16 +118,22 @@ components:
       type: object
       properties:
         cartId:
-          type: string
+          type: number
         productId:
-          type: string
+          type: number
         quantity:
           type: integer
     OrderCancellation:
       type: object
       properties:
-        orderId:
-          type: string
+        cartId:
+          type: number
+        userId:
+          type: number
+        productIds:
+          type: array
+          items:
+            type: number
     SearchResult:
       type: object
       properties:

@@ -2,7 +2,11 @@ package mk.ukim.finki.thesis.producer.dtos;
 
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class OrderCancellationDTO {
-  private String orderId;
+  Long cartId;
+  Long userId;
+  List<Long> productIds;
 }

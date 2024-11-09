@@ -2,7 +2,7 @@ package mk.ukim.finki.thesis.spi.handler;
 
 import ecommerce.ProductView;
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.thesis.kafka.service.ProductViewProducerService;
+import mk.ukim.finki.thesis.kafka.service.ProducerService;
 import mk.ukim.finki.thesis.spi.mapper.impl.AvroObjectMapperImpl;
 import mk.ukim.finki.thesis.spi.model.Product;
 import mk.ukim.finki.thesis.spi.model.UserActivity;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class ProductViewActivityHandler implements UserActivityHandler {
 
   private final AvroObjectMapperImpl avroObjectMapper;
-  private final ProductViewProducerService productViewProducer;
+  private final ProducerService producerService;
 
   @Override
   public boolean handles(UserActivity activity) {
@@ -28,6 +28,6 @@ public class ProductViewActivityHandler implements UserActivityHandler {
     ProductView productView = avroObjectMapper.mapToProductView(product);
 
     // send kafka message
-    productViewProducer.produceMessage(productView);
+    producerService.produceMessage(productView);
   }
 }

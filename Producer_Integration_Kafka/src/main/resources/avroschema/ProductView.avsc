@@ -6,7 +6,7 @@
     //not needed - why would anyone care?
     {
       "name": "userId",
-      "type": "string"
+      "type": "long"
     },
     {
       "name": "product",

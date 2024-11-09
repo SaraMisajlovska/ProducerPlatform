@@ -5,14 +5,13 @@ import mk.ukim.finki.thesis.producer.config.TrackActivity;
 import mk.ukim.finki.thesis.producer.dtos.CartItemDTO;
 import mk.ukim.finki.thesis.producer.dtos.OrderCancellationDTO;
 import mk.ukim.finki.thesis.producer.dtos.ProductDTO;
-import mk.ukim.finki.thesis.producer.dtos.SearchResultDTO;
 import mk.ukim.finki.thesis.producer.mapper.DTOMapper;
+import mk.ukim.finki.thesis.spi.model.Cart;
+import mk.ukim.finki.thesis.spi.model.CartItem;
 import mk.ukim.finki.thesis.spi.model.Product;
+import mk.ukim.finki.thesis.spi.model.Search;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -24,7 +23,7 @@ public class EShopController {
   //Apply after returning advice
   @TrackActivity
   @GetMapping("/product/{productId}")
-  public ResponseEntity<Product> viewProduct(@PathVariable String productId) {
+  public ResponseEntity<Product> viewProduct(@PathVariable Long productId) {
 
     ProductDTO product = new ProductDTO();
     product.setId(productId);
@@ -38,34 +37,28 @@ public class EShopController {
     return ResponseEntity.ok(body);
   }
 
+  @TrackActivity
   @PostMapping("/cart")
-  public ResponseEntity<CartItemDTO> addProductToCart(@RequestBody CartItemDTO cartItem) {
-    // Simulate adding to cart
-    cartItem.setCartId("exampleCartId");
-    return ResponseEntity.ok(cartItem);
+  public ResponseEntity<CartItem> addProductToCart(@RequestBody CartItemDTO cartItem) {
+
+    CartItem body = dtoMapper.mapToCartItem(cartItem);
+    return ResponseEntity.ok(body);
   }
 
+  @TrackActivity
   @PostMapping("/order/cancel")
-  public ResponseEntity<OrderCancellationDTO> cancelOrder(@RequestBody OrderCancellationDTO orderCancellation) {
+  public ResponseEntity<Cart> cancelOrder(@RequestBody OrderCancellationDTO orderCancellation) {
     // Simulate order cancellation
-    return ResponseEntity.ok(orderCancellation);
+
+    Cart cart = dtoMapper.mapToCart(orderCancellation);
+    return ResponseEntity.ok(cart);
   }
 
+  @TrackActivity
   @GetMapping("/search")
-  public ResponseEntity<SearchResultDTO> searchProducts(@RequestParam String query) {
-    // Example search result
-    List<ProductDTO> products = new ArrayList<>();
-    ProductDTO product = new ProductDTO();
-    product.setId("1");
-    product.setName("Example Product 1");
-    product.setDescription("This is an example product 1.");
-    product.setPrice(19.99);
-    product.setStock(50);
-    products.add(product);
+  public ResponseEntity<Search> searchProducts(@RequestParam String query, @RequestParam Long userId) {
 
-    SearchResultDTO searchResult = new SearchResultDTO();
-    products.forEach(searchResult::addProductToResult);
-
-    return ResponseEntity.ok(searchResult);
+    Search search = dtoMapper.mapToSearchItem(query, userId);
+    return ResponseEntity.ok(search);
   }
 }

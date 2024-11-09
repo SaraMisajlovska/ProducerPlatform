@@ -5,26 +5,17 @@
   "fields": [
     {
       "name": "userId",
-      "type": "string"
+      "type": "long"
     },
     {
-      "name": "cart",
+      "name": "cartId",
+      "type": "long"
+    },
+    {
+      "name": "products",
       "type": {
-        "type": "record",
-        "name": "CartInfo",
-        "fields": [
-          {
-            "name": "cartId",
-            "type": "string"
-          },
-          {
-            "name": "products",
-            "type": {
-              "type": "array",
-              "items": "ecommerce.ProductInfo"
-            }
-          }
-        ]
+        "type": "array",
+        "items": "ecommerce.ProductInfo"
       }
     },
     {

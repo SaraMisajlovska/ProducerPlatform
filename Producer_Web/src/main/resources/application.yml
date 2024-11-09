@@ -14,8 +14,19 @@ spring:
         schema:
           registry:
             url: "http://127.0.0.1:8081"
+#    consumer:
+#      group-id: thesis-consumer
+#      keyDeserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+#      valueDeserializer: "io.confluent.kafka.serializers.KafkaAvroDeserializer"
+#      autoOffsetReset: earliest
+#      properties:
+#        schema:
+#          registry:
+#            url: "http://127.0.0.1:8081"
+#        specific:
+#          avro:
+#            reader: "true"
 kafka:
   topic:
     producer-one:
       user-actions: "mk.ukim.finki.thesis.producer-one.user-actions"
-

@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class Product implements UserActivity {
-  private String id;
+  private Long id;
   private String name;
   private double price;
   private String category;
