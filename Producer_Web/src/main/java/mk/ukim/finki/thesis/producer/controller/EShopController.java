@@ -6,7 +6,7 @@ import mk.ukim.finki.thesis.producer.dtos.CartItemDTO;
 import mk.ukim.finki.thesis.producer.dtos.OrderCancellationDTO;
 import mk.ukim.finki.thesis.producer.dtos.ProductDTO;
 import mk.ukim.finki.thesis.producer.mapper.DTOMapper;
-import mk.ukim.finki.thesis.spi.model.Cart;
+import mk.ukim.finki.thesis.spi.model.CartActivity;
 import mk.ukim.finki.thesis.spi.model.CartItem;
 import mk.ukim.finki.thesis.spi.model.Product;
 import mk.ukim.finki.thesis.spi.model.Search;
@@ -46,11 +46,10 @@ public class EShopController {
 
   @TrackActivity
   @PostMapping("/order/cancel")
-  public ResponseEntity<Cart> cancelOrder(@RequestBody OrderCancellationDTO orderCancellation) {
-    // Simulate order cancellation
+  public ResponseEntity<CartActivity> cancelOrder(@RequestBody OrderCancellationDTO orderCancellation) {
 
-    Cart cart = dtoMapper.mapToCart(orderCancellation);
-    return ResponseEntity.ok(cart);
+    CartActivity cartActivity = dtoMapper.mapToCart(orderCancellation);
+    return ResponseEntity.ok(cartActivity);
   }
 
   @TrackActivity

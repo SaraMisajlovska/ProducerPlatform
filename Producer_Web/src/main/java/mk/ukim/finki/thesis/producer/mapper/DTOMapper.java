@@ -3,7 +3,7 @@ package mk.ukim.finki.thesis.producer.mapper;
 import mk.ukim.finki.thesis.producer.dtos.CartItemDTO;
 import mk.ukim.finki.thesis.producer.dtos.OrderCancellationDTO;
 import mk.ukim.finki.thesis.producer.dtos.ProductDTO;
-import mk.ukim.finki.thesis.spi.model.Cart;
+import mk.ukim.finki.thesis.spi.model.CartActivity;
 import mk.ukim.finki.thesis.spi.model.CartItem;
 import mk.ukim.finki.thesis.spi.model.Product;
 import mk.ukim.finki.thesis.spi.model.Search;
@@ -39,8 +39,6 @@ public class DTOMapper {
     Product persitedProduct = mapToProductById(cartItemDTO.getProductId());
 
     return CartItem.builder()
-            //this id needs to be taken from the cart object -> user
-            .userId(1234L)
             .quantity(cartItemDTO.getQuantity())
             .product(persitedProduct)
             .cartId(cartItemDTO.getCartId())
@@ -54,17 +52,16 @@ public class DTOMapper {
             .build();
   }
 
-  public Cart mapToCart(OrderCancellationDTO orderCancellationDTO) {
+  public CartActivity mapToCart(OrderCancellationDTO orderCancellationDTO) {
 
     List<Product> productList = new ArrayList<>();
 
-    orderCancellationDTO.getProductIds().stream().map(this::mapToProductById).forEach(productList::add);
+    orderCancellationDTO.getProducts().stream().map(this::mapToProduct).forEach(productList::add);
 
-
-    return Cart.builder()
+    return CartActivity.builder()
             .cartId(orderCancellationDTO.getCartId())
-            .userId(orderCancellationDTO.getUserId())
             .products(productList)
+            .cancellationReason(orderCancellationDTO.getReason())
             .build();
   }
 }

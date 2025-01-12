@@ -2,7 +2,7 @@ package mk.ukim.finki.thesis.spi.mapper.impl;
 
 import ecommerce.*;
 import mk.ukim.finki.thesis.spi.mapper.AvroObjectMapper;
-import mk.ukim.finki.thesis.spi.model.Cart;
+import mk.ukim.finki.thesis.spi.model.CartActivity;
 import mk.ukim.finki.thesis.spi.model.CartItem;
 import mk.ukim.finki.thesis.spi.model.Product;
 import mk.ukim.finki.thesis.spi.model.Search;
@@ -42,7 +42,6 @@ public class AvroObjectMapperImpl implements AvroObjectMapper {
     ProductView.Builder productViewBuilder = ProductView.newBuilder();
     productViewBuilder.setTimestamp(getTimestamp());
     productViewBuilder.setProduct(productInfo);
-    productViewBuilder.setUserId(1234L);
 
     return productViewBuilder.build();
   }
@@ -55,7 +54,6 @@ public class AvroObjectMapperImpl implements AvroObjectMapper {
 
     addToCartBuilder.setProduct(productInfo);
     addToCartBuilder.setQuantity(cartItem.getQuantity());
-    addToCartBuilder.setUserId(cartItem.getUserId());
     addToCartBuilder.setTimestamp(getTimestamp());
     addToCartBuilder.setCartId(cartItem.getCartId());
 
@@ -75,19 +73,23 @@ public class AvroObjectMapperImpl implements AvroObjectMapper {
   }
 
   @Override
-  public CheckoutAbandoned mapToCheckoutAbandoned(Cart cart) {
-    List<ProductInfo> productInfos = cart.getProducts()
+  public CheckoutAbandoned mapToCheckoutAbandoned(CartActivity cartActivity) {
+    List<ProductInfo> productInfos = cartActivity.getProducts()
             .stream()
             .map(this::mapToProductInfo)
             .toList();
 
     CheckoutAbandoned.Builder checkoutAbandonedBuilder = CheckoutAbandoned.newBuilder();
 
-    checkoutAbandonedBuilder.setCartId(cart.getCartId());
-    checkoutAbandonedBuilder.setUserId(cart.getUserId());
+    checkoutAbandonedBuilder.setCartId(cartActivity.getCartId());
     checkoutAbandonedBuilder.setProducts(productInfos);
     checkoutAbandonedBuilder.setTimestamp(getTimestamp());
+    checkoutAbandonedBuilder.setAbandonmentReason(mapToAbandonmentReason(cartActivity));
 
     return checkoutAbandonedBuilder.build();
+  }
+
+  private static AbandonmentReason mapToAbandonmentReason(CartActivity cartActivity) {
+    return AbandonmentReason.valueOf(cartActivity.getCancellationReason().name());
   }
 }

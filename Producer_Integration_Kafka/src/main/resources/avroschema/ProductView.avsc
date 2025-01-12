@@ -3,20 +3,13 @@
   "name": "ProductView",
   "namespace": "ecommerce",
   "fields": [
-    //not needed - why would anyone care?
-    {
-      "name": "userId",
-      "type": "long"
-    },
     {
       "name": "product",
       "type": "ecommerce.ProductInfo"
     },
     {
       "name": "timestamp",
-      "type": "long",
-//      fix this look at clean install warning
-      "logicalType": "timestamp-millis"
+      "type": "long"
     }
   ]
 }

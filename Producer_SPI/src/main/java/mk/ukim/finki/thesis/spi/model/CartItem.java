@@ -7,7 +7,6 @@ import lombok.Getter;
 @Builder
 public class CartItem implements UserActivity {
 
-  private Long userId;
   private Long cartId;
   private Product product;
   private Integer quantity;

@@ -63,6 +63,15 @@ paths:
               properties:
                 orderId:
                   type: number
+                reason:
+                  type: string
+                  description: cancellation reason
+                  enum:
+                    - HIGH_SHIPPING_COST
+                    - COMPLEX_CHECKOUT
+                    - PAYMENT_ISSUES
+                    - TECHNICAL_ERROR
+                    - OTHER
       responses:
         '200':
           description: Order process cancelled successfully
@@ -128,12 +137,10 @@ components:
       properties:
         cartId:
           type: number
-        userId:
-          type: number
-        productIds:
+        products:
           type: array
           items:
-            type: number
+            $ref: '#/components/schemas/Product'
     SearchResult:
       type: object
       properties:

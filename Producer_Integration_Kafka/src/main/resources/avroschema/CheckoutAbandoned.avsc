@@ -4,10 +4,6 @@
   "namespace": "ecommerce",
   "fields": [
     {
-      "name": "userId",
-      "type": "long"
-    },
-    {
       "name": "cartId",
       "type": "long"
     },
@@ -21,6 +17,20 @@
     {
       "name": "timestamp",
       "type": "long"
+    },
+    {
+      "name": "abandonmentReason",
+      "type": {
+        "type": "enum",
+        "name": "AbandonmentReason",
+        "symbols": [
+          "HIGH_SHIPPING_COST",
+          "COMPLEX_CHECKOUT",
+          "PAYMENT_ISSUES",
+          "TECHNICAL_ERROR",
+          "OTHER"
+        ]
+      }
     }
   ]
 }

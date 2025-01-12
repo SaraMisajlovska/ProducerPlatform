@@ -4,10 +4,6 @@
   "namespace": "ecommerce",
   "fields": [
     {
-      "name": "userId",
-      "type": "long"
-    },
-    {
       "name": "cartId",
       "type": "long"
     },

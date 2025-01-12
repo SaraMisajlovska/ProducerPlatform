@@ -7,6 +7,6 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 // TODO smisajlo 12.10.24: add javadoc
 @Retention(RUNTIME)
-@Target(METHOD)
+@Target({METHOD})
 public @interface TrackActivity {
 }
