@@ -8,6 +8,8 @@ import mk.ukim.finki.thesis.spi.model.Product;
 import mk.ukim.finki.thesis.spi.model.UserActivity;
 import org.springframework.stereotype.Service;
 
+import static mk.ukim.finki.thesis.common.enums.MessageKey.PRODUCT_VIEW;
+
 @Service
 @RequiredArgsConstructor
 public class ProductViewActivityHandler implements UserActivityHandler {
@@ -28,6 +30,6 @@ public class ProductViewActivityHandler implements UserActivityHandler {
     ProductView productView = avroObjectMapper.mapToProductView(product);
 
     // send kafka message
-    producerService.produceMessage(productView);
+    producerService.produceMessage(PRODUCT_VIEW,productView);
   }
 }

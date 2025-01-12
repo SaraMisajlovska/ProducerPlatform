@@ -57,6 +57,7 @@ public class AvroObjectMapperImpl implements AvroObjectMapper {
     addToCartBuilder.setQuantity(cartItem.getQuantity());
     addToCartBuilder.setUserId(cartItem.getUserId());
     addToCartBuilder.setTimestamp(getTimestamp());
+    addToCartBuilder.setCartId(cartItem.getCartId());
 
     return addToCartBuilder.build();
   }

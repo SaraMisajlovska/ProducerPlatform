@@ -9,6 +9,8 @@ import mk.ukim.finki.thesis.spi.model.Cart;
 import mk.ukim.finki.thesis.spi.model.UserActivity;
 import org.springframework.stereotype.Service;
 
+import static mk.ukim.finki.thesis.common.enums.MessageKey.CART_ABANDONED;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,6 @@ public class CheckoutAbandonedActivityHandler implements UserActivityHandler {
 
     CheckoutAbandoned checkoutAbandoned = avroObjectMapper.mapToCheckoutAbandoned(cart);
 
-    producerService.produceMessage(checkoutAbandoned);
+    producerService.produceMessage(CART_ABANDONED, checkoutAbandoned);
   }
 }

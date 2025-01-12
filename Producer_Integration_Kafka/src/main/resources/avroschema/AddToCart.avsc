@@ -8,6 +8,10 @@
       "type": "long"
     },
     {
+      "name": "cartId",
+      "type": "long"
+    },
+    {
       "name": "product",
       "type": "ecommerce.ProductInfo"
     },

@@ -25,6 +25,7 @@ public class TrackActivityAspect {
 
     UserActivity activity = responseEntity.getBody();
     String errorMessage = format("No handler found for %s", activity);
+
     userActivityHandlers.stream()
             .filter(handler -> handler.handles(activity))
             .findFirst()

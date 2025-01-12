@@ -9,6 +9,8 @@ import mk.ukim.finki.thesis.spi.model.Search;
 import mk.ukim.finki.thesis.spi.model.UserActivity;
 import org.springframework.stereotype.Service;
 
+import static mk.ukim.finki.thesis.common.enums.MessageKey.SEARCH_QUERY;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -28,6 +30,6 @@ public class SearchActivityHandler implements UserActivityHandler {
 
     SearchQuery searchQuery = avroObjectMapper.mapToSearchQuery(search);
 
-    producerService.produceMessage(searchQuery);
+    producerService.produceMessage(SEARCH_QUERY, searchQuery);
   }
 }

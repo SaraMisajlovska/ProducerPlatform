@@ -9,6 +9,8 @@ import mk.ukim.finki.thesis.spi.model.CartItem;
 import mk.ukim.finki.thesis.spi.model.UserActivity;
 import org.springframework.stereotype.Service;
 
+import static mk.ukim.finki.thesis.common.enums.MessageKey.ADD_TO_CART;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,6 @@ public class AddToCartActivityHandler implements UserActivityHandler {
     AddToCart addToCart = avroObjectMapper.mapToAddToCart(cartItem);
 
     // send kafka message
-    producerService.produceMessage(addToCart);
+    producerService.produceMessage(ADD_TO_CART, addToCart);
   }
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 public class CartItem implements UserActivity {
 
   private Long userId;
+  private Long cartId;
   private Product product;
   private Integer quantity;
 }

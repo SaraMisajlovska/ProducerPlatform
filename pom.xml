@@ -33,6 +33,11 @@
             <version>1.18.32</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>mk.ukim.finki.thesis</groupId>
+            <artifactId>Common_Library</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

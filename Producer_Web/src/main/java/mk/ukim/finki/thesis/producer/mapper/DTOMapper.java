@@ -40,9 +40,10 @@ public class DTOMapper {
 
     return CartItem.builder()
             //this id needs to be taken from the cart object -> user
-            .userId(123L)
+            .userId(1234L)
             .quantity(cartItemDTO.getQuantity())
             .product(persitedProduct)
+            .cartId(cartItemDTO.getCartId())
             .build();
   }
 
@@ -65,6 +66,5 @@ public class DTOMapper {
             .userId(orderCancellationDTO.getUserId())
             .products(productList)
             .build();
-
   }
 }

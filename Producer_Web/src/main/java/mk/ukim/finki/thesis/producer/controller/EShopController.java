@@ -30,7 +30,6 @@ public class EShopController {
     product.setName("Example Product");
     product.setDescription("This is an example product.");
     product.setPrice(99.99);
-    product.setStock(10);
     product.setCategory("Example Category");
 
     Product body = dtoMapper.mapToProduct(product);
