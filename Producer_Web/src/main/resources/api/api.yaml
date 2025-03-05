@@ -4,17 +4,12 @@ info:
   description: API for an e-shop allowing users to view products, add them to the cart, cancel orders, and search for products.
   version: 1.0.0
 paths:
-  /product/{productId}:
-    get:
+  /product/:
+    post:
       summary: View a product
       description: Retrieve detailed information about a specific product.
-      parameters:
-        - name: productId
-          in: path
-          required: true
-          description: The ID of the product to retrieve.
-          schema:
-            type: number
+      requestBody:
+        $ref: '#/components/schemas/Product'
       responses:
         '200':
           description: Product retrieved successfully

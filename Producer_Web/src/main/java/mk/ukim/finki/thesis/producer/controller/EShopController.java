@@ -22,17 +22,10 @@ public class EShopController {
 
   //Apply after returning advice
   @TrackActivity
-  @GetMapping("/product/{productId}")
-  public ResponseEntity<Product> viewProduct(@PathVariable Long productId) {
+  @PostMapping("/product/")
+  public ResponseEntity<Product> viewProduct(@RequestBody ProductDTO productDTO) {
 
-    ProductDTO product = new ProductDTO();
-    product.setId(productId);
-    product.setName("Example Product");
-    product.setDescription("This is an example product.");
-    product.setPrice(99.99);
-    product.setCategory("Example Category");
-
-    Product body = dtoMapper.mapToProduct(product);
+    Product body = dtoMapper.mapToProduct(productDTO);
     return ResponseEntity.ok(body);
   }
 
